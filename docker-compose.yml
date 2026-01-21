@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  uptimekuma-pinger:
+    image: ghcr.io/your-org/uptimekuma-pinger:latest
+    container_name: uptimekuma-pinger
+    restart: unless-stopped
+    environment:
+      # Replace with your Uptime Kuma push URL
+      UPTIME_KUMA_URL: "https://your-uptime-kuma-instance.com/api/push/YOUR_PUSH_KEY"
+      # Ping interval in seconds
+      PING_INTERVAL: "60"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
