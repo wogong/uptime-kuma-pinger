@@ -34,12 +34,15 @@ def main():
             req = urllib.request.Request(uptime_kuma_url)
             response = urllib.request.urlopen(req, timeout=10)
             elapsed_ms = int((time.time() - start_time) * 1000)
-            
-            if response.status == 200:
-                logger.info(f"Ping successful - {elapsed_ms}ms")
-            else:
-                logger.warning(f"Ping returned status {response.status} - {elapsed_ms}ms")
             response.close()
+            
+            # Append latency to PUSH_URL
+            url_with_ping = f"{uptime_kuma_url}{elapsed_ms}"
+            req = urllib.request.Request(url_with_ping)
+            response = urllib.request.urlopen(req, timeout=10)
+            response.close()
+            
+            logger.info(f"Ping successful - {elapsed_ms}ms")
                 
         except urllib.error.HTTPError as e:
             elapsed_ms = int((time.time() - start_time) * 1000)
